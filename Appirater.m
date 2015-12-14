@@ -275,7 +275,7 @@ static BOOL _alwaysUseMainBundle = NO;
                                            message:self.alertMessage
                                           delegate:self
                                  cancelButtonTitle:self.alertCancelTitle
-                                 otherButtonTitles:self.alertRateTitle, self.alertRateLaterTitle, nil];
+                                 otherButtonTitles:self.alertRateTitle, nil];
   } else {
   	alertView = [[UIAlertView alloc] initWithTitle:self.alertTitle
                                            message:self.alertMessage
@@ -661,11 +661,11 @@ static BOOL _alwaysUseMainBundle = NO;
 	switch (buttonIndex) {
 		case 0:
 		{
-			// they don't want to rate it
-			[userDefaults setBool:YES forKey:kAppiraterDeclinedToRate];
+			// remind them later
+			[userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:kAppiraterReminderRequestDate];
 			[userDefaults synchronize];
-			if(delegate && [delegate respondsToSelector:@selector(appiraterDidDeclineToRate:)]){
-				[delegate appiraterDidDeclineToRate:self];
+			if(delegate && [delegate respondsToSelector:@selector(appiraterDidOptToRemindLater:)]){
+				[delegate appiraterDidOptToRemindLater:self];
 			}
 			break;
 		}
